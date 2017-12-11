@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DailyNotesModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=D:\Proje\Notlar\Notlar\bin\Debug\DATA\DailyNotes.db" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6005: The data type '' is currently not supported for the target Entity Framework version; the column 'Note' in the table 'main.DetailNote' was excluded.-->
+        <EntityType Name="DetailNote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="MasterNoteId" Type="integer" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="IsCompleted" Type="bit" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="ScheduledDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="MasterNote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="IsVisible" Type="bit" />
+          <Property Name="Description" Type="nvarchar" MaxLength="2147483647" />
+        </EntityType>
+        <Association Name="FK_DetailNote_0_0">
+          <End Role="MasterNote" Type="Self.MasterNote" Multiplicity="1" />
+          <End Role="DetailNote" Type="Self.DetailNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterNote">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetailNote">
+              <PropertyRef Name="MasterNoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DailyNotesModelStoreContainer">
+          <EntitySet Name="DetailNote" EntityType="Self.DetailNote" store:Type="Tables" />
+          <EntitySet Name="MasterNote" EntityType="Self.MasterNote" store:Type="Tables" />
+          <AssociationSet Name="FK_DetailNote_0_0" Association="Self.FK_DetailNote_0_0">
+            <End Role="MasterNote" EntitySet="MasterNote" />
+            <End Role="DetailNote" EntitySet="DetailNote" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DailyNotesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DetailNote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MasterNoteId" Type="Int64" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="IsCompleted" Type="Boolean" />
+          <Property Name="StartDate" Type="DateTime" />
+          <Property Name="ScheduledDate" Type="DateTime" />
+          <Property Name="EndDate" Type="DateTime" />
+          <NavigationProperty Name="MasterNote" Relationship="DailyNotesModel.FK_DetailNote_0_0" FromRole="DetailNote" ToRole="MasterNote" />
+        </EntityType>
+        <EntityType Name="MasterNote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreateDate" Type="DateTime" />
+          <Property Name="IsVisible" Type="Boolean" />
+          <Property Name="Description" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DetailNotes" Relationship="DailyNotesModel.FK_DetailNote_0_0" FromRole="MasterNote" ToRole="DetailNote" />
+        </EntityType>
+        <EntityContainer Name="DailyNotesEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DetailNotes" EntityType="Self.DetailNote" />
+          <EntitySet Name="MasterNotes" EntityType="Self.MasterNote" />
+          <AssociationSet Name="FK_DetailNote_0_0" Association="DailyNotesModel.FK_DetailNote_0_0">
+            <End Role="MasterNote" EntitySet="MasterNotes" />
+            <End Role="DetailNote" EntitySet="DetailNotes" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_DetailNote_0_0">
+          <End Type="DailyNotesModel.MasterNote" Role="MasterNote" Multiplicity="1" />
+          <End Type="DailyNotesModel.DetailNote" Role="DetailNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterNote">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetailNote">
+              <PropertyRef Name="MasterNoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DailyNotesModelStoreContainer" CdmEntityContainer="DailyNotesEntities">
+          <EntitySetMapping Name="DetailNotes">
+            <EntityTypeMapping TypeName="DailyNotesModel.DetailNote">
+              <MappingFragment StoreEntitySet="DetailNote">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MasterNoteId" ColumnName="MasterNoteId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsCompleted" ColumnName="IsCompleted" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="ScheduledDate" ColumnName="ScheduledDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MasterNotes">
+            <EntityTypeMapping TypeName="DailyNotesModel.MasterNote">
+              <MappingFragment StoreEntitySet="MasterNote">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="IsVisible" ColumnName="IsVisible" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
