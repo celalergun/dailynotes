@@ -192,3 +192,28 @@ namespace Notlar
         }
     }
 }
+/*
+To use a binding source with ADO.NET (in order to avoid EF) the following code may be used:
+
+            List<LoginUsers> usrs = new List<LoginUsers>();
+            LoginUsers usr1 = new LoginUsers();
+            usr1.Name = "Ali";
+            usr1.Id = 1;
+            LoginUsers usr2 = new LoginUsers();
+            usr2.Name = "Veli";
+            usr2.Id = 2;
+            LoginUsers usr3 = new LoginUsers();
+            usr3.Name = "Selami";
+            usr3.Id = 3;
+            usrs.Add(usr1);
+            usrs.Add(usr2);
+            usrs.Add(usr3);
+            BindingSource src = new BindingSource();
+            src.CurrentChanged += new EventHandler (delegate (Object o, EventArgs a) 
+            {
+                label1.Text = src.Position.ToString();
+            });
+            src.DataSource = usrs;
+            dataGridView1.DataSource = src;
+            src.Position = 2;
+*/
